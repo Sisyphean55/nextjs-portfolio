@@ -32,7 +32,7 @@ const Blog = ({ articles }) => {
     )
 }
 export const getServerSideProps = async () => {
-    const res = await fetch("http://localhost:3000/api/blogarticles/");
+    const res = await fetch(process.env['HOST']+'/api/blogarticles/');
     const articles = await res.json();
     return {
         props: {
