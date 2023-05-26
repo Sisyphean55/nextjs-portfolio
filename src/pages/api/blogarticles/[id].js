@@ -1,5 +1,4 @@
-import { conn } from "../../../database";
-
+import { conn } from "../../../utils/database";
 export default async (req, res) => {
     const { method, query, content } = req;
     switch (method) {

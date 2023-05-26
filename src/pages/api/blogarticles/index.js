@@ -1,4 +1,5 @@
-import { conn } from "../../../database";
+import { conn } from "../../../utils/database";
+
 export default async (req, res) => {
     const { method, content } = req;
     let response = null;
