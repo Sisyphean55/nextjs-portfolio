@@ -13,8 +13,9 @@ const Index = () => (
                         <div className="col-md-8">
                             <h1>Nicolás Pérez</h1>
                             <h3>FullStack Developer</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum qui magnam laborum fuga ab reprehenderit eos iste id at saepe? Architecto quos rerum repudiandae quis error illum est excepturi quam?</p>
-                            <Link href="/contact">Contacto</Link>
+                            <p>Constantly improving and seeking knowledge of new technologies. I've been living in this world for the past 4 years, always advancing and proving that no goal is too far to reach.</p>
+                            <p>My skills rely on the resolutive side, continuosly offering solutions to my clients through effective communication skills and teamwork.</p>
+                            <Link href="/contact">Contact me!</Link>
                         </div>
                     </div>
                 </div>
