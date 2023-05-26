@@ -6,7 +6,7 @@ const Navbar = () => {
     return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
-            <Link className="navbar-brand" href="/">Nextjs 0.0.1</Link>
+            <Link className="navbar-brand" href="/">Nextjs 0.0.2</Link>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
@@ -33,7 +33,7 @@ const Navbar = () => {
                     </li>
                         )}{ !session && (
                             <li className="nav-item">
-                            <Link className="nav-link" href="/api/auth/signin" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <Link className="nav-link" href="/api/auth/signin"aria-expanded="false">
                                 Sign in
                             </Link>
                             </li>
