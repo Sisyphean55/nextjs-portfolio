@@ -10,5 +10,4 @@ if (!conn) {
         database: process.env.DB_NAME
     });
 }
-console.log(process.env.DB_USER);
 export { conn };
