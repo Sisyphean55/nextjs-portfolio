@@ -1,4 +1,3 @@
-import { conn } from "../../../utils/database";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 
