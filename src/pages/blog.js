@@ -1,9 +1,10 @@
 import Layout from "../components/Layout";
 import Link from "next/link";
+import { PrismaClient } from '@prisma/client';
 
 const PostCard = ({ post }) => (
     <div className="col-md-4" >
-        <Link href={`/blogarticles/${post.id}`} style={{"textDecoration": "none"}}>
+        <Link href={`/blogarticles/${post.id}`} style={{ "textDecoration": "none" }}>
             <div className="card text-light" >
                 <div className="overflow">
                     <img src={post.img_url} alt="" className="card-img-top" />
@@ -24,7 +25,7 @@ const Blog = ({ articles }) => {
                 <h3 className="m-3">(mostly of it's contents will be in spanish)</h3>
                 {
                     articles.map(post => (
-                        <PostCard post={post} key={post}/>
+                        <PostCard post={post} key={post} />
                     ))
                 }
             </div>
@@ -32,11 +33,15 @@ const Blog = ({ articles }) => {
     )
 }
 export const getServerSideProps = async () => {
-    const res = await fetch(process.env['HOST']+'/api/blogarticles/');
-    const articles = await res.json();
+    const prisma = new PrismaClient();
+    const response = await prisma.articles.findMany({
+        select: { id: true, title: true, img_url: true, body: true },
+        where: { is_active: true }
+    });
+    prisma.$disconnect();
     return {
         props: {
-            articles: articles,
+            articles: response,
         }
     }
 }

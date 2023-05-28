@@ -1,12 +1,22 @@
 import { conn } from "../../../utils/database";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
+
 export default async (req, res) => {
     const { method, query, content } = req;
+    const session = await getServerSession(req, res, authOptions);
+    if (!session) {
+        return res.status(403).json({ error: 'not authorized to use this resource' })
+    }
     switch (method) {
         case 'GET':
             try {
-                const queryText = 'SELECT id,title,img_url,body,created_on FROM articles WHERE is_active = TRUE AND id = $1';
-                const values = [query.id];
-                const response = await conn.query(queryText, values);
+                const prisma = new PrismaClient();
+                const response = await prisma.articles.findUnique({
+                    select: { id: true, title: true, img_url: true, body: true },
+                    where: { id: query.id, is_active: true }
+                });
+                prisma.$disconnect();
                 if (response.rows.length === 0) {
                     return res.status(404).json({ message: 'no article found' });
                 }
@@ -17,13 +27,20 @@ export default async (req, res) => {
             break;
         case 'PATCH':
             try {
-                if (!query.id) {
-                    res.status(400).json('No valid id');
+                if (!session) {
+                    return res.status(403).json({ error: 'not authorized to use this resource' });
                 }
-                const { title, img_url, body, is_active } = content;
-                const queryText = 'UPDATE articles SET title = $1, img_url = $2, body = $3, is_active = $4 WHERE id = $5 RETURNING *'
-                const values = [title, img_url, body, is_active, query.id];
-                const response = await conn.query(queryText, values);
+                if (!query.id) {
+                    return res.status(400).json('No valid id');
+                }
+                const { title, img_url, body } = content;
+                const prisma = new PrismaClient();
+                const response = await prisma.articles.puser({
+                    where: { id: query.id },
+                    insert: { title: title, img_url: img_url, body: body },
+                    upsert: { title: title, img_url: img_url, body: body }
+                });
+                prisma.$disconnect();
                 if (response.rows.length === 0) {
                     return res.status(404).json({ message: 'no article found' });
                 }
